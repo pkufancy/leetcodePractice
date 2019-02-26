@@ -1,3 +1,5 @@
+import java.util.HashMap;
+
 public class Solution {
 
     //Leetcode 1. Two Sum
@@ -42,18 +44,17 @@ public class Solution {
     }
 
     //Leetcode 3.Longest Substring Without Repeating Characters
-    // Still have problems, need to be revised
+    // better solution from discussion board
     public int lengthOfLongestSubstring(String s) {
-        int max = 1;
-        for(int i = 0; i < s.length()-max; i++){
-            for(int j = i + 1; j < s.length(); j++){
-                if(s.charAt(i)==s.charAt(j)){
-                    i++;
-                    if(j-i>max){ max = j-i;}
-                }
-                System.out.println(max);
-                System.out.println(s.substring(i,j));
+        if (s.length()==0) return 0;
+        HashMap<Character, Integer> map = new HashMap<Character, Integer>();
+        int max=0;
+        for (int i=0, j=0; i<s.length(); ++i){
+            if (map.containsKey(s.charAt(i))){
+                j = Math.max(j,map.get(s.charAt(i))+1);
             }
+            map.put(s.charAt(i),i);
+            max = Math.max(max,i-j+1);
         }
         return max;
     }
