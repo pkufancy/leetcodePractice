@@ -86,4 +86,61 @@ public class Solution {
         return nums[i];
     }
 
+
+    //Leetcode 5. Longest Palindromic Substring
+    //This solution is ugly and inefficient
+    public String longestPalindrome(String s) {
+        if(s.equals("")){return "";}
+        String result = s.substring(0,1);
+        int max = 1;
+        for(int i = 0; i<s.length();i++){
+            for(int j = i+max; j<s.length();j++){
+                if(isPalindrome(s.substring(i,j+1))){
+                    if(s.substring(i,j+1).length()>max){
+                        max = j-i;
+                        result = s.substring(i,j+1);
+                    }
+                }
+            }
+        }
+        return result;
+    }
+    public boolean isPalindrome(String s){
+        char[] sChar = s.toCharArray();
+        int len = sChar.length;
+        for(int i = 0; i < len/2; i++){
+            if(sChar[i]!=sChar[len-i-1]){
+                return false;
+            }
+        }
+        return true;
+    }
+    //Leetcode 5. Another answer
+    //it performs better, but I still want something better
+    //Looking forward to your ideas
+    public String longestPalindrome2(String s) {
+        if(s.equals("")){return "";}
+        char[] ca = s.toCharArray();
+        int rs = 0, re = 0;
+        int max = 0;
+        for(int i = 0; i < ca.length; i++) {
+            if(isPalindrome(ca, i - max - 1, i)) {
+                rs = i - max - 1; re = i;
+                max += 2;
+            } else if(isPalindrome(ca, i - max, i)) {
+                rs = i - max; re = i;
+                max += 1;
+            }
+        }
+        return s.substring(rs, re + 1);
+    }
+    private boolean isPalindrome(char[] ca, int s, int e) {
+        if(s < 0) return false;
+
+        while(s < e) {
+            if(ca[s++] != ca[e--]) return false;
+        }
+        return true;
+    }
+
 }
