@@ -143,4 +143,27 @@ public class Solution {
         return true;
     }
 
+    //Leetcode 6.ZigZag Conversion
+    //I actually love this method, but dealing with borders is not satisfying
+    public String convert(String s, int numRows) {
+        String[] rows = new String[numRows];
+        if(s.length()<=2 || numRows ==1) return s;
+        for(int i = 0; i < rows.length; i++){
+            rows[i] = "";
+        }
+        for(int i = 0; i<s.length(); i++){
+            if((i)%(2*numRows-2) <= numRows-1){
+                rows[(i)%(2*numRows-2)] += s.charAt(i);
+            }else{
+                rows[numRows-1-(((i)%(2*numRows-2)+1)%numRows)] += s.charAt(i);
+            }
+        }
+        String result = "";
+        for(int i = 0; i < rows.length; i++){
+            result += rows[i];
+        }
+        result.replace(null,"");
+        return result;
+    }
+
 }
