@@ -166,4 +166,26 @@ public class Solution {
         return result;
     }
 
+    //Leetcode 7. Reverse Integer
+    //the performance is very good, it seems to be a good algorithm, but can be utilized
+    //to have better space performance
+    public int reverse(int x) {
+        boolean positive = x>=0;
+        String resultStr = "";
+        int result = 0;
+        if(!positive) x = 0 - x;
+        String tempx = Integer.toString(x);
+        for(int i = tempx.length()-1; i>=0; i--){
+            resultStr += tempx.charAt(i);
+        }
+        try{
+            result = Integer.parseInt(resultStr);
+        }catch (Exception e){
+            return 0;
+        }
+
+        return positive?result:(0-result);
+    }
+
+
 }
