@@ -187,5 +187,49 @@ public class Solution {
         return positive?result:(0-result);
     }
 
+    //Leetcode 8. String to Integer (atoi)
+    //The method is very ugly using long to store int, but I have no other ways to do that
+    public int myAtoi(String str) {
+        char[] arr = str.toCharArray();
+        long out = 0;
+        int i = 0;
+        boolean minus = false;
+        while(i < arr.length && (arr[i] == ' ')){
+            i++;
+        }
+        if (i >= arr.length){
+            return 0;
+        }
+        if (arr[i] == '-'){
+            minus = true;
+            i++;
+        }else if (arr[i] == '+'){
+            i++;
+        }
+        while (i < arr.length && arr[i] == '0'){
+            i++;
+        }
+        int j = i;
+        for (; j < Math.min(i + 11, arr.length); j++){
+            if ((arr[j] >= '0' && arr[j] <= '9')){
+                out = out*10 + arr[j] - '0';
+            } else {
+                break;
+            }
+        }
+        if (minus){
+            out = 0 - out;
+        }
+        if (out > Integer.MAX_VALUE){
+            return Integer.MAX_VALUE;
+        }
+        if (out < Integer.MIN_VALUE){
+            return Integer.MIN_VALUE;
+        }
+        return (int) out;
+    }
+
+
+
 
 }
