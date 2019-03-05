@@ -229,6 +229,41 @@ public class Solution {
         return (int) out;
     }
 
+    //Leetcode 9. Palindrome Number
+    //too easy algorithm
+    public boolean isPalindrome(int x) {
+        String xStr = Integer.toString(x);
+        for(int i = 0; i < xStr.length()/2 + 1; i++){
+            if(xStr.charAt(i) != xStr.charAt(xStr.length() - i -1)){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    //Leetcode 10. Regular Expression Matching
+    //This must be a hard one, but I will try
+    //Dynamic -programming skills, I forgot, but now I remember.
+    //Coped from the discussion board, but I forget who is the writer
+    public boolean isMatch(String s, String p){
+        if(p == null || p.length()==0) return (s==null|| s.length()==0);
+        boolean dp[][] = new boolean[s.length()+1][p.length()+1];
+        dp[0][0] = true;
+        for(int j=2; j<p.length();j++){
+            dp[0][j] = p.charAt(j-1)=='*'&& dp[0][j-2];
+        }
+        for(int j=1; j<=p.length();j++){
+            for(int i=1; i<=s.length();i++){
+                if(p.charAt(j-1)==s.charAt(i-1) || p.charAt(j-1)=='.')
+                    dp[i][j] = dp[i-1][j-1];
+                else if(p.charAt(j-1)=='*')
+                    dp[i][j]= dp[i][j-2] || ((s.charAt(i-1)==p.charAt(j-2)|| p.charAt(j-2)=='.') && dp[i-1][j]);
+                else continue;
+            }
+        }
+        return dp[s.length()][p.length()];
+    }
+
 
 
 
