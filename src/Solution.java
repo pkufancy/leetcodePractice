@@ -264,6 +264,120 @@ public class Solution {
         return dp[s.length()][p.length()];
     }
 
+    //Leetcode 11.  Container With Most Water
+    //The answer is so simple but the performance is bad.
+    public int maxArea(int[] height) {
+        int maxArea = 0;
+        for(int i=0; i<height.length-1; i++){
+            for(int j=i+1; j<height.length; j++){
+                if((j-i)*Math.min(height[i],height[j])>maxArea){
+                    maxArea = (j-i)*Math.min(height[i],height[j]);
+                }
+            }
+        }
+        return maxArea;
+    }
+    //Leetcode 11 Another algorithm from discussion board
+    //performs really well
+    public int maxArea2(int[] height) {
+        int start = 0;
+        int end = height.length - 1;
+        int volume = 0;
+        while(start < end) {
+            if (height[start] > height[end]) {
+                volume = Math.max(volume, height[end]*(end-start));
+                end = end - 1;
+            } else {
+                volume = Math.max(volume, height[start]*(end-start));
+                start = start + 1;
+            }
+        }
+        return volume;
+    }
+
+    //Leetcode 12.Integer to Roman
+    //very nice method from discussion board. Exactly the same as my method
+    //but it uses arrays to make the code neater.
+    //Also he uses string buffer, which improves the performance significantly
+    public static String intToRoman(int num) {
+        if (num <= 0)
+            return null;
+        int[] a = { 1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1 };
+        String[] s = { "M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I" };
+        StringBuffer result = new StringBuffer();
+        for (int i = 0; i < a.length; i++) {
+            int RomanNumber = a[i];
+            while (num >= RomanNumber) {
+                num -= RomanNumber;
+                result.append(s[i]);
+                if (num == 0)
+                    return result.toString();
+            }
+        }
+        return null;
+    }
+
+    //Leetcode 13. Roman to Integer
+    public static int romanToInt(String s) {
+        if (s == null || s.length() == 0)
+            return -1;
+        HashMap<Character, Integer> map = new HashMap<Character, Integer>();
+        map.put('I', 1);
+        map.put('V', 5);
+        map.put('X', 10);
+        map.put('L', 50);
+        map.put('C', 100);
+        map.put('D', 500);
+        map.put('M', 1000);
+        int len = s.length(), result = map.get(s.charAt(len - 1));
+        for (int i = len - 2; i >= 0; i--) {
+            if (map.get(s.charAt(i)) >= map.get(s.charAt(i + 1)))
+                result += map.get(s.charAt(i));
+            else
+                result -= map.get(s.charAt(i));
+        }
+        return result;
+    }
+
+    //Leetcode 14. longest Common Refix
+    //A very ugly method
+    public String longestCommonPrefix(String[] strs) {
+        if(strs.length==0) return "";
+        int k = 1;
+        if(strs[0].equals("")) return "";
+        String temp = strs[0].substring(0,1);
+        try{
+            while(true){
+                for(int i=0; i<strs.length;i++){
+                    if(!strs[i].substring(0,k).equals(temp)) return strs[0].substring(0,k-1);
+                }
+                k++;
+                temp = strs[0].substring(0,k);
+            }
+        }catch(Exception e){
+            return strs[0].substring(0,k-1);
+        }
+    }
+    //Leetcode 14. longest Common Refix
+    //Another very ugly method, but the performance is good.
+    //The memory usage is very poor
+    public String longestCommonPrefix2(String[] strs) {
+        if (strs == null || strs.length == 0) return "";
+        return longestCommonPrefix(strs, 0);
+    }
+    private String longestCommonPrefix(String[] strs, int index) {
+        if (index >= strs[0].length()) return "";
+        String strAtIndex = strs[0].substring(index, index + 1);
+        for (int i = 1; i < strs.length; i++)
+            if (strs[i].length() <= index || !strs[i].substring(index, index + 1).equals(strAtIndex))
+                return "";
+        return strs[0].substring(index, index + 1) + longestCommonPrefix(strs, index + 1);
+    }
+
+
+
+
+
 
 
 
